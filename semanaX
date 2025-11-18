@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semana de la Energía Chile 2025 — OLADE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg:#ffffff; --fg:#0b1f3a; --muted:#5b6b7f;
+      --brand:#0b3b8c; --brand-2:#00a96b;
+      --card:#ffffff; --border:#e6edf4; --chip:#f1f6fb; --chip-border:#d8e4f2; --focus: rgba(11,59,140,.16);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--fg);margin:0}
+
+    /* Topbar blanca */
+    .topbar{position:sticky;top:0;z-index:40;background:#fff;color:var(--fg);border-bottom:1px solid var(--border);box-shadow:0 4px 14px rgba(13,31,58,.04)}
+    .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 20px;display:flex;gap:12px;align-items:center}
+    .brandmark{display:flex;align-items:center;gap:12px;cursor:pointer}
+    .brandmark img{height:40px;width:auto;display:block}
+    .brand-title{margin:0;font-size:18px;font-weight:800;letter-spacing:.2px;color:#0b3b8c}
+
+    /* Contenido */
+    .wrap{max-width:1100px;margin:0 auto;padding:22px}
+
+    /* --- HERO CON IMAGEN DE FONDO --- */
+    .hero {
+      display: flex;
+      flex-direction: column; /* Apila los elementos verticalmente */
+      align-items: center;    /* Centra horizontalmente */
+      justify-content: center;/* Centra verticalmente */
+      gap: 20px;              /* Espacio entre el título, descripción y el buscador */
+      
+      /* --- CAMBIOS PRINCIPALES AQUÍ --- */
+      width: 100vw;           /* Ocupa el 100% del ancho del viewport */
+      position: relative;     /* Necesario para width: 100vw en contenedores */
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      /* -------------------------------- */
+
+      min-height: 400px;      /* Aumentamos la altura para que sea más prominente */
+      padding: 40px 20px;
+      margin-top: 18px; /* Un poco de margen superior si es necesario */
+      margin-bottom: 24px;
+      
+      /* Fondo con la imagen y la capa azul oscura semitransparente */
+      background: linear-gradient(rgba(11, 31, 58, 0.8), rgba(11, 31, 58, 0.8)), /* Capa azul oscura transparente */
+                  url('semana_de_la_energia.jpg') no-repeat center center;
+      background-size: cover;
+      
+      border-radius: 0;       /* Quitamos el border-radius para que ocupe todo el ancho */
+      border: none;           /* Quitamos el borde */
+      text-align: center;     /* Asegura que el texto se centre */
+      color: #ffffff;         /* Color del texto blanco para contrastar con el fondo oscuro */
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      font-weight: 800;
+      color: #ffffff; /* Texto del título blanco */
+      margin: 0;
+      max-width: 900px; /* Ancho máximo para el título */
+      line-height: 1.2;
+    }
+
+    /* Añadimos un estilo para la descripción si vas a agregar una */
+    .hero p {
+        font-size: 18px;
+        color: #e0e6ed; /* Un blanco un poco más suave */
+        max-width: 800px;
+        margin: 0 0 10px 0;
+    }
+
+    .hero-search {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px; /* Un poco más de espacio si hay una descripción */
+    }
+
+    .hero-search input {
+      max-width: 450px; /* Buscador un poco más ancho */
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid #c9d6e4; /* Borde más claro para el input */
+      font-size: 16px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.95); /* Fondo casi blanco para el input */
+      color: #0b1f3a; /* Color del texto dentro del input */
+    }
+
+    .hero-search input:focus {
+      box-shadow: 0 0 0 2px rgba(11, 59, 140, 0.2); /* Sombra de foco más suave */
+      border-color: #0b3b8c;
+    }
+    /* Chips / Filtros */
+    .bubbles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+    .bubble{background:var(--chip);border:1px solid var(--chip-border);padding:10px 16px;border-radius:999px;font-weight:700;cursor:pointer;transition:all .15s ease;color:#0b2c63}
+    .bubble:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(11,59,140,.06)}
+    .selected{outline:3px solid var(--focus);background:#e9f2ff;border-color:#cfe2ff}
+    .hidden-sibling{opacity:.35;pointer-events:none}
+
+    .section-title{text-align:center;margin:18px 0 8px;font-weight:800;letter-spacing:.2px;color:#0b3b8c}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(13,31,58,.04)}
+    .blockquote{border-left:4px solid var(--brand);padding-left:12px;font-style:italic;margin:0 0 10px 0;color:#0b2c63}
+
+    /* Autores */
+    .authors-layout{display:grid;grid-template-columns:1fr 2fr;gap:16px}
+    .author-slicer{display:grid;grid-template-columns:1fr 44px;gap:8px}
+    .author-list{display:flex;flex-direction:column;gap:8px;max-height:460px;overflow:hidden}
+    .author-btn{width:100%;text-align:left;border-radius:12px;padding:10px 12px;background:#f7fbff;border:1px solid var(--border);cursor:pointer;transition:all .15s;color:#0b2c63}
+    .author-btn:hover{background:#eef6ff}
+    .author-btn.active{outline:3px solid var(--focus);background:#e9f2ff}
+
+    /* Slider vertical (invertido) */
+    .vslider-wrap{display:flex;align-items:center;justify-content:center}
+    .vslider{writing-mode:bt-lr;-webkit-appearance:slider-vertical;width:28px;height:460px;background:transparent}
+    .vslider::-webkit-slider-runnable-track{background:#e6eef7;border:1px solid var(--border);border-radius:999px;width:8px}
+    .vslider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-left:-5px;background:#0b3b8c;border:2px solid #0c4ca9;border-radius:999px}
+    .vslider::-moz-range-track{background:#e6eef7;border:1px solid var(--border);border-radius:999px}
+    .vslider::-moz-range-thumb{width:18px;height:18px;background:#0b3b8c;border:2px solid #0c4ca9;border-radius:999px}
+
+    #error-overlay{position:fixed;inset:0;background:rgba(11,31,58,.88);color:#fff;display:none;z-index:9999;padding:24px;overflow:auto}
+    #error-overlay pre{white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+    .site-footer{margin:26px auto 10px;max-width:1100px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px;border-top:1px solid var(--border)}
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brandmark" id="logo-olade">
+        <img src="olade-logo.png" alt="OLADE"/>
+        <h1 class="brand-title">Semana de la Energía Chile 2025</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero">
+      <h2>Los 100 datos mas relevantes de la región</h2>
+      <div class="hero-search">
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Buscar dato o autor..."
+          aria-label="Buscar dato o autor"
+        />
+      </div>
+    </section>
+
+
+    <section style="text-align:center; margin:10px 0 28px">
+      <div id="mode" class="bubbles" style="justify-content:center">
+        <button id="mode-cats" class="bubble selected">Por categorías</button>
+        <button id="mode-authors" class="bubble">Por autor</button>
+      </div>
+    </section>
+
+    <div id="selections" style="text-align:center; margin-bottom:28px"></div>
+
+    <main>
+      <section id="sec-f1" style="margin-bottom:18px">
+        <h3 class="section-title">1. Categoría (Filtro I)</h3>
+        <div id="f1" class="bubbles"></div>
+      </section>
+
+      <section id="sec-f2" style="margin-bottom:18px; display:none">
+        <h3 class="section-title">2. Subcategoría (Filtro II)</h3>
+        <div id="f2" class="bubbles"></div>
+      </section>
+
+      <section id="sec-f3" style="margin-bottom:18px; display:none">
+        <h3 class="section-title">3. Detalle (Filtro III)</h3>
+        <div id="f3" class="bubbles"></div>
+      </section>
+
+      <div style="text-align:center; margin-bottom:12px">
+        <button id="reset" class="bubble" style="background:#fff;border-color:#f2c6c6;color:#a10000;display:none">Reiniciar filtros</button>
+      </div>
+
+      <div id="results" style="display:grid; gap:12px"></div>
+
+      <section id="sec-authors" style="display:none; margin-top:8px">
+        <h3 class="section-title">Autores</h3>
+        <div class="authors-layout">
+          <div class="card">
+            <div class="author-slicer">
+              <div id="author-list" class="author-list"></div>
+              <div class="vslider-wrap">
+                <input id="author-slider" class="vslider" type="range" min="0" max="0" step="1" value="0" />
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div id="author-results" style="display:grid; gap:12px"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <span>© OLADE — Semana de la Energía Chile 2025</span>
+    <span>Datos recopilados de ponencias y fuentes públicas</span>
+  </footer>
+
+  <div id="error-overlay">
+    <h3 style="color:#fca5a5; margin-top:0">Error de JavaScript</h3>
+    <pre id="error-text"></pre>
+  </div>
+
+  <script>
+    // Overlay de errores
+    (function(){
+      const overlay=document.getElementById('error-overlay');
+      const txt=document.getElementById('error-text');
+      window.onerror=function(message,source,lineno,colno,error){
+        overlay.style.display='block';
+        txt.textContent=(message||'Error')+"\\n\\n"+(error&&error.stack?error.stack:(source+':'+lineno+':'+colno)); return false;
+      };
+      window.addEventListener('unhandledrejection', e=>{
+        overlay.style.display='block';
+        txt.textContent='Unhandled promise rejection:\\n\\n'+(e.reason&&e.reason.stack?e.reason.stack:String(e.reason));
+      });
+    })();
+
+    // === DATA_INDEX ===
+    const DATA_INDEX = {
+    "1a. Sector Eléctrico": {
+        "Transmisión": {
+        "_": [
+            {
+            "name": "Medardo Cadena",
+            "company": "OLADE",
+            "role": "Consultor",
+            "quote": "ALC tiene una capacidad instalada de 1,68 GW en sistemas de almacenamiento BESS, con una inversión estimada de 1800 millones de dólares.",
+            "Cita": "no"
+            },
+            {
+            "name": "Felipe Riveros",
+            "company": "Huawei Digital Power",
+            "role": "Grid Code Expert Latam",
+            "quote": "La meta de 2000 MW de almacenamiento al 2030 presenta un 55% de cumplimiento (1105 MW operativos) y se proyecta alcanzarla a fines de 2025 y la meta de 6000 MW de almacenamiento al 2050 ya asegura un 100% de cumplimiento, con instalaciones proyectadas para mediados de 2027.",
+            "Cita": "si"
+            },
+            {
+            "name": "Manlio Coviello",
+            "company": "ENERGY DOME Latam",
+            "role": "Presidente",
+            "quote": "El mercado global de almacenamiento de energía podría alcanzar entre 120.000 y 150.000 millones de dólares en 2030, más del doble de su tamaño actual.",
+            "Cita": "si"
+            },
+            {
+            "name": "Manlio Coviello",
+            "company": "ENERGY DOME Latam",
+            "role": "Presidente",
+            "quote": "Se espera que los sistemas de almacenamiento a escala industrial (mayores a 10 MWh) crezcan anualmente un 29% durante el resto de la década.",
+            "Cita": "si"
+            },
+            {
+            "name": "Esteban Van Dam",
+            "company": "Aires Renewables",
+            "role": "Technical director",
+            "quote": "En Argentina, la licitación BESS AlmaGBA adjudicó 667 MW en Gran Buenos Aires, con una posible adjudicación próxima de 222 MW adicionales.",
+            "Cita": "si"
+            },
+            {
+            "name": "Diego Rodríguez",
+            "company": "AMI - Americas Market Intelligence",
+            "role": "Director de Práctica Logística",
+            "quote": "El 14% de la IED en ALC se destina a Infraestructura (Transporte, Energía y Telecomunicaciones).",
+            "Cita": "si"
+            },
+            {
+            "name": "Rodrigo Moreno",
+            "company": "Instituto de Sistemas Complejos de Ingeniería (ISCI)",
+            "role": "Director Enlace - Universidad de Chile",
+            "quote": "La integración regional podría generar 10 mil millones de dólares de ahorro anual para 2035.",
+            "Cita": "si"
+            },
+            {
+            "name": "Ramiro Gómez Barinaga",
+            "company": "RELP",
+            "role": "",
+            "quote": "El potencial de mercado para desplazar la generación con combustibles fósiles en los 29 países del Caribe se estima en 9.000 MW de nueva capacidad en energías renovables y baterías.",
+            "Cita": "si"
+            },
+            {
+            "name": "Fernando Monteverde",
+            "company": "SIEMENS energy",
+            "role": "",
+            "quote": "Se estima que en Latinoamérica se desperdician (por vertimiento) 7.000 millones de dólares en energía anualmente, demostrando la necesidad urgente de redes de transmisión eficientes e interconexión.",
+            "Cita": "si"
+            },
+            {
+            "name": "Marcelino Madrigal",
+            "company": "BID",
+            "role": "Jefe de la División Energía",
+            "quote": "Se estima que los intercambios de energía en el Cono Sur, utilizando la infraestructura existente, podrían incrementarse y generar un ahorro de aproximadamente dos mil millones de dólares al año.",
+            "Cita": ""
+            }
+        ]
+        },
+        "Generación": {
+        "General": [
+            {
+            "name": "Ricardo Michel",
+            "company": "Sistema Económico Latinoamericano y del Caribe (SELA)",
+            "role": "Asesor del Despacho de la Secretaría Permanente",
+            "quote": "En 2023, el 43,1% de la inversión total proveniente de China hacia América del Sur se destinó al sector energético, con un claro enfoque en fuentes renovables.",
+            "Cita": "si"
+            },
+            {
+            "name": "Jaime Sighetti",
+            "company": "McKinsey & Company",
+            "role": "Socio y Director General de Chile",
+            "quote": "Se estima que para el año 2050, el 80% de la capacidad instalada en América Latina será renovable, considerando también el hidrógeno.",
+            "Cita": "si"
+            },
+            {
+            "name": "Leandro Pereira de Andrade",
+            "company": "Ministerio de Minas y Energía de Brasil",
+            "role": "Director del Departamento de Información, Estudios y Eficiencia Energética",
+            "quote": "Brasil supera la media regional de renovables (70%), alcanzando un 88% en su matriz energética, donde aproximadamente el 30% de su generación proviene de fuentes eólica y fotovoltaica.",
+            "Cita": "si"
+            }
+        ],
+        "Térmica": [
+            {
+            "name": "Edgar Blanco",
+            "company": "Gasoducto GasAndes",
+            "role": "Responsable de ingeniería y obras",
+            "quote": "Datos del CNE (Chile) señalan que para 2025, el gas natural (incluyendo GNL y gas argentino) tendrá una participación del 19% en la matriz eléctrica.",
+            "Cita": "si"
+            },
+            {
+            "name": "Carlos Cortes Simon",
+            "company": "AGN",
+            "role": "Presidente Ejecutivo",
+            "quote": "Eliminar el gas natural de la matriz eléctrica chilena para 2035 costaría más de 26 mil millones de dólares.",
+            "Cita": "si"
+            },
+            {
+            "name": "Isabel Beltrán",
+            "company": "GEAPP",
+            "role": "Vicepresidenta",
+            "quote": "El 80% de la energía en el Caribe proviene de combustibles fósiles, lo que implica una alta dependencia, un costo altísimo y una energía mucho más cara.",
+            "Cita": "si"
+            }
+        ],
+        "Bioenergía": [
+            {
+            "name": "Jacqueline Hazbun",
+            "company": "ACI",
+            "role": "Directora Ejecutiva",
+            "quote": "En Guatemala, los ingenios cogeneradores aportan el 30% de la matriz eléctrica en la época seca, utilizando el 100% de su biomasa. Además, su eficiencia se ha multiplicado por 10 pasando de 17 kWh por tonelada de bagazo de caña a 170 kWh, con el potencial de llegar a más de 200 kWh.",
+            "Cita": "si"
+            },
+            {
+            "name": "",
+            "company": "OLADE",
+            "role": "",
+            "quote": "En 2023, Belice se destacó en el Caribe por su uso de bioenergía (principalmente biomasa) para electricidad, generando el 33.4% de su energía total a partir de esta fuente. La biomasa representó el 42% del Suministro Total de Energía Primaria del país en 2022.",
+            "Cita": "si"
+            },
+            {
+            "name": "",
+            "company": "OLADE",
+            "role": "",
+            "quote": "Cuba posee la mayor capacidad instalada de bioenergía eléctrica entre los países caribeños con 440 MW en 2023 (principalmente de la industria azucarera) , representando el 8.19% de su capacidad total.",
+            "Cita": "si"
+            }
+        ],
+        "Solar": [
+            {
+            "name": "Frederik Schonberger",
+            "company": "Fraunhofer Chile",
+            "role": "Ingeniero Investigador",
+            "quote": "Estudios de microclima en horticultura muestran que la agrivoltaica reduce la evapotranspiración potencial en 31% y mantiene la humedad del suelo 29% más alta.",
+            "Cita": "no"
+            },
+            {
+            "name": "Camila Vásquez",
+            "company": "MEN Chile (Ministerio de Energía)",
+            "role": "",
+            "quote": "En Chile (2025), el sector agrícola concentra el 42% (170 MW) de toda la potencia instalada bajo la Ley de Generación Distribuida (Netbilling), demostrando su alta adopción de energía solar.",
+            "Cita": "si"
+            }
+        ],
+        "Hidroeléctrica": [
+            {
+            "name": "Arturo Alarcón",
+            "company": "BID",
+            "role": "Especialista Senior",
+            "quote": "La participación de la generación hidroeléctrica en América Latina y el Caribe (ALC) cayó del 61% en el año 2000 al 42% en 2024.",
+            "Cita": "si"
+            },
+            {
+            "name": "Arturo Alarcón",
+            "company": "BID",
+            "role": "Especialista Senior",
+            "quote": "Más del 50% de las centrales hidroeléctricas de ALC ya han superado su vida útil de 30 años, por lo que se necesitarán más de 33 mil millones de dólares para modernizar el parque hidroeléctrico existente en la región durante la próxima década.",
+            "Cita": "si"
+            }
+        ],
+        "Geotermia": [
+            {
+            "name": "David Vilar",
+            "company": "Banco Mundial",
+            "role": "Especialista Senior en Energía",
+            "quote": "México es el líder en energía geotérmica en Latinoamérica, con casi 1 Gigavatio (GW) de capacidad instalada y varios países centroamericanos tienen una capacidad geotérmica significativa: Costa Rica (260 MW), El Salvador (217 MW) y Nicaragua (160 MW).",
+            "Cita": "si"
+            },
+            {
+            "name": "Marlene Jamilet Elías de Quan",
+            "company": "LAGEO",
+            "role": "Gerente General",
+            "quote": "El Salvador tiene planes concretos para añadir aproximadamente 90 MW de capacidad geotérmica a mediano plazo (plantas Chinameca y San Vicente, más repotenciaciones) y estima un potencial adicional total de 600 MW.",
+            "Cita": "si"
+            },
+            {
+            "name": "Dafne Pino",
+            "company": "Ministerio de Energía de Chile",
+            "role": "Secretaria Regional Ministerial de la Región de Antofagasta",
+            "quote": "El potencial geotérmico explorado en Chile alcanza los 3.800 MW (equivalente al 10% de su capacidad instalada total), aunque actualmente solo opera la planta Cerro Pabellón (83 MW), la única en Sudamérica.",
+            "Cita": "si"
+            }
+        ],
+        "Eólico": [
+            {
+            "name": "Ramón Fiestas",
+            "company": "GWEC",
+            "role": "",
+            "quote": "El mercado eólico de ALC está altamente concentrado: en 2024, el 99% de los 4.782,5 MW instalados se ubicaron en solo 5 países (Brasil 68%, Chile 13%).",
+            "Cita": "si"
+            }
+        ],
+        "_": [
+            {
+            "name": "Facundo Deluchi",
+            "company": "OIEA",
+            "role": "Oficial de Gestión de Programas",
+            "quote": "Aunque la energía nuclear representa solo el 9% de la electricidad total generada globalmente, contribuye con el 25% (o un cuarto) de la generación mundial de energía de baja emisión de gases de efecto invernadero",
+            "Cita": ""
+            },
+            {
+            "name": "Andrés Rebolledo",
+            "company": "OLADE",
+            "role": "Secretario Ejecutivo",
+            "quote": "La capacidad instalada actual en la región de América Latina es de 500 gigas (GW) y para alcanzar la meta de ser carbono neutrales para 2050, se requerirían otros 500 gigas de capacidad en solo 10 años.",
+            "Cita": ""
+            },
+            {
+            "name": "Andrés Rebolledo",
+            "company": "OLADE",
+            "role": "Secretario Ejecutivo",
+            "quote": "Para lograr la generación eléctrica renovable necesaria (500 GW adicionales) para alcanzar la carbono neutralidad en 2050, ALC requeriría una inversión que asciende a 400 mil o 500 mil millones de dólares. Esta cifra no incluye las redes de transmisión",
+            "Cita": ""
+            },
+            {
+            "name": "Ramón Mendez",
+            "company": "REN21",
+            "role": "Director Ejecutivo",
+            "quote": "Uruguay logró operar con un 99% de fuentes renovables en su matriz eléctrica, sin utilizar una sola batería, confiando únicamente en la complementación de diferentes fuentes.",
+            "Cita": ""
+            },
+            {
+            "name": "Luiz Barroso",
+            "company": "PSR Energy Consulting",
+            "role": "Director Ejecutivo",
+            "quote": "Desde 2005, el sistema brasilero ha licitado 100 GW de capacidad y los precios promedio de licitación (todo incluido, para todas las tecnologías) han sido de alrededor de $50 por MWh. Para las tecnologías renovables únicamente, el precio promedio ha sido de $44 por MWh.",
+            "Cita": ""
+            },
+            {
+            "name": "Luiz Barroso",
+            "company": "PSR Energy Consulting",
+            "role": "Director Ejecutivo",
+            "quote": "En los últimos 5 años, Brasil ha añadido 7 GW/año de renovables, de los cuales un 50% se corresponde con generación distribuida",
+            "Cita": ""
+            },
+            {
+            "name": "Andrés Romero Celedón",
+            "company": "Banco Mundial",
+            "role": "Consultor",
+            "quote": "En Chile, la electrificación de la economía y una matriz carbono neutral para la infraestructura del país, se estima que requería 70 GW de capacidad en comparación con la matriz actual, que es de 30 GW",
+            "Cita": ""
+            },
+            {
+            "name": "Alessandra Amaral",
+            "company": "ADELAT",
+            "role": "Presidente Ejecutiva",
+            "quote": "Un estudio de ADELAT que analizó a siete países (Brasil, Chile, Colombia, Argentina, Perú y Guatemala) hasta el año 2040 concluyó que se requiere un monto de 289 mil millones de dólares para la transición energética total.",
+            "Cita": ""
+            },
+            {
+            "name": "Maria Medard",
+            "company": "CARILEC",
+            "role": "Coordinadora de gestión de desastres",
+            "quote": "Jamaica tiene como meta que para el año 2036, el 30% de su energía provenga de fuentes que no sean diésel.",
+            "Cita": ""
+            },
+            {
+            "name": "Maria Medard",
+            "company": "CARILEC",
+            "role": "Coordinadora de gestión de desastres",
+            "quote": "Luego del Huracán Barry en 2024, JPS de Jamaica invirtió 17.000 millones de dólares para modernizar su red y buscar un espacio de renovables.",
+            "Cita": ""
+            }
+        ]
+        },
+        "Distribución": {
+        "_": [
+            {
+            "name": "Juan Meriches",
+            "company": "Empresas Eléctricas AG",
+            "role": "Director ejecutivo",
+            "quote": "Chile enfrenta una brecha en su continuidad de suministro eléctrico: el indicador actual supera las 20 horas de interrupción anual, mientras que la meta de la Política Energética es de 4 horas para 2035 y 1 hora para 2050.",
+            "Cita": "si"
+            },
+            {
+            "name": "",
+            "company": "OLADE",
+            "role": "",
+            "quote": "El nivel promedio de pérdidas de distribución en América Latina y el Caribe se ha mantenido estancado en torno al 16% - 17% durante los últimos 40 a 50 años.",
+            "Cita": "si"
+            },
+            {
+            "name": "",
+            "company": "OLADE",
+            "role": "",
+            "quote": "El acceso a la electricidad en Haití sigue siendo el más bajo del Caribe, alcanzando solo al 45% de la población en 2022.",
+            "Cita": "si"
+            }
+        ]
+        }
+    },
+    "1b. Recursos Naturales": {
+        "Gas": {
+        "_": [
+            {
+            "name": "Aminta Estrada",
+            "company": "Stockholm Environment Institute (SEI) Latin America",
+            "role": "Investigadora Auxiliar",
+            "quote": "El metano es 82,5 veces más potente que el CO₂ en un horizonte de 20 años (29,8 veces en 100 años), según el IPCC (2023).",
+            "Cita": "si"
+            },
+            {
+            "name": "Cristina Lobillo",
+            "company": "European Comission",
+            "role": "Directora de Políticas Energéticas",
+            "quote": "La mitigación del metano con coste negativo en el sector O&G de ALC representaría una reducción de 319 Mt CO₂e (GWP20), casi las emisiones anuales de Argentina, y 115 Mt CO₂e (GWP100), superando las emisiones anuales de Perú.",
+            "Cita": "no"
+            },
+            {
+            "name": "Belén Aravena Riquelme",
+            "company": "Engie Stream Solutions Chile",
+            "role": "Contract Manager",
+            "quote": "La terminal de regasificación de GNL de Mejillones (Chile) posee el tanque de GNL más grande de Sudamérica, con 187.000 m³ de capacidad, diseñado para resistir condiciones sísmicas extremas.",
+            "Cita": "si"
+            },
+            {
+            "name": "Marcelo Mena",
+            "company": "Global Methane Hub",
+            "role": "CEO",
+            "quote": "El Compromiso Global del Metano (GMP) permitiría una reducción de 0,3 grados en la temperatura para el año 2050, más del doble de lo que puede lograr la descarbonización por sí sola en ese período.",
+            "Cita": "si"
+            },
+            {
+            "name": "Silvia Zumarraga",
+            "company": "WÄRTSILÄ",
+            "role": "",
+            "quote": "Contratos de gas inflexibles (take or pay), como los propuestos para licitaciones de 1.400 MW en Centroamérica, generan 'miedo' en las renovables, ya que fuerzan un despacho térmico que provoca el vertimiento (pérdida) de la energía renovable.",
+            "Cita": "si"
+            },
+            {
+            "name": "Marcelo Mena",
+            "company": "Global Methane Hub",
+            "role": "CEO",
+            "quote": "Más del 50% de la mitigación de metano se puede realizar a costo cero (es decir, es rentable) y más del 5% se puede hacer a bajo costo.",
+            "Cita": "si"
+            },
+            {
+            "name": "Marcelo Mena",
+            "company": "Global Methane Hub",
+            "role": "CEO",
+            "quote": "Un estándar regional/global de metano podría evitar cerca de 2 billones (trillones en inglés) de dólares en daños climáticos anuales.",
+            "Cita": "si"
+            }
+        ]
+        },
+        "Minería": {
+        "_": [
+            {
+            "name": "Ricardo Michel",
+            "company": "Sistema Económico Latinoamericano y del Caribe (SELA)",
+            "role": "Asesor del Despacho de la Secretaría Permanente",
+            "quote": "América Latina deberá duplicar su producción de cobre hacia 2050 para sostener la electrificación global.",
+            "Cita": "si"
+            },
+            {
+            "name": "Ricardo Michel",
+            "company": "Sistema Económico Latinoamericano y del Caribe (SELA)",
+            "role": "Asesor del Despacho de la Secretaría Permanente",
+            "quote": "La producción de litio en América Latina se multiplicará al menos por 10 en los próximos 20 años.",
+            "Cita": "si"
+            },
+            {
+            "name": "Diego Rodríguez",
+            "company": "AMI - Americas Market Intelligence",
+            "role": "Director de Práctica Logística",
+            "quote": "El 31% de la Inversión Extranjera Directa (IED) en ALC se destina al sector de Recursos Naturales (Minería, Petróleo y Gas, y Renovables).",
+            "Cita": "si"
+            },
+            {
+            "name": "Ricardo Michel",
+            "company": "SELA, Sistema Económico Latinoamericano y del Caribe",
+            "role": "Asesor del Despacho de la Secretaría Permanente",
+            "quote": "América Latina concentra el 60% de los recursos mundiales de litio y más del 45% de la producción de cobre y plata.",
+            "Cita": "si"
+            },
+            {
+            "name": "Rodrigo Barquea",
+            "company": "BHP",
+            "role": "Jefe de Asuntos Corporativos",
+            "quote": "El mundo necesitará un 70% más de cobre para 2050, lo que equivale a 10 millones de toneladas adicionales (casi la producción actual de dos Chiles).",
+            "Cita": "si"
+            },
+            {
+            "name": "Mary Worlic",
+            "company": "Agencia Internacional de Energía - IEA",
+            "role": "Directora Ejecutiva Adjunta",
+            "quote": "Casi el 7% del suministro mundial de cobre está en riesgo de interrupción debido a eventos climáticos extremos como inundaciones o sequías, afectando potencialmente 2 millones de toneladas.",
+            "Cita": "si"
+            }
+        ]
+        },
+        "Petróleo": {
+        "_": [
+            {
+            "name": "Carlos Garibaldi",
+            "company": "ARPEL",
+            "role": "Secretario Ejecutivo",
+            "quote": "En 2023, América Latina y el Caribe aportó el 9,8% de la producción mundial de petróleo y el 4,9% de la de gas.",
+            "Cita": "si"
+            },
+            {
+            "name": "Carlos Garibaldi",
+            "company": "ARPEL",
+            "role": "Secretario Ejecutivo",
+            "quote": "La región (ALC) concentró el 38% de los descubrimientos globales de hidrocarburos entre 2020 y 2024, principalmente en Brasil, Guyana y Surinam.",
+            "Cita": "si"
+            },
+            {
+            "name": "Carlos Garibaldi",
+            "company": "ARPEL",
+            "role": "Secretario Ejecutivo",
+            "quote": "ALC produce menos del 10% del petróleo diario mundial, sin embargo concentró el 38% de los descubrimientos globales de hidrocarburos (petróleo y gas) entre 2020 y 2024.",
+            "Cita": "si"
+            },
+            {
+            "name": "Carlos Garibaldi",
+            "company": "ARPEL",
+            "role": "Secretario Ejecutivo",
+            "quote": "El 83% de los recursos descubiertos en ALC desde 2020 se concentran en Brasil, Guyana y Surinam.",
+            "Cita": "si"
+            },
+            {
+            "name": "Carlos Garibaldi",
+            "company": "ARPEL",
+            "role": "Secretario Ejecutivo",
+            "quote": "Los márgenes atlánticos de ALC y África contribuyeron con el 60% de los recursos descubiertos globalmente entre 2020-2024.",
+            "Cita": "si"
+            },
+            {
+            "name": "Cecilia San Román Ribolla",
+            "company": "ANCAP",
+            "role": "Presidente",
+            "quote": "La importación de petróleo representa el 15% de todas las importaciones que realiza Uruguay, lo que justifica económicamente la exploración de recursos fósiles propios para robustecer el sistema.",
+            "Cita": "si"
+            }
+        ]
+        }
+    },
+    "1d. Enfoque Social de la Energía": {
+        "Empleo y Cadenas de valor": {
+        "_": [
+            {
+            "name": "Patricia Roa",
+            "company": "OIT",
+            "role": "Oficial de Programación",
+            "quote": "La OIT ha estimado que la transición energética podría crear 15 millones de nuevos empleos en América Latina y el Caribe para 2030, que compensará con creces la pérdida estimada de 7.5 millones en sectores dependientes de los combustibles fósiles.",
+            "Cita": "no"
+            },
+            {
+            "name": "Ricardo Michel",
+            "company": "Sistema Económico Latinoamericano y del Caribe (SELA)",
+            "role": "Asesor del Despacho de la Secretaría Permanente",
+            "quote": "El impacto económico anual de los desastres en América Latina y el Caribe, solo en los sectores de energía y transporte, se estima en aproximadamente 18 mil millones de dólares, reflejando una vulnerabilidad crítica en infraestructuras clave.",
+            "Cita": "si"
+            },
+            {
+            "name": "Astrid Yanet Aguilera Cazalbón",
+            "company": "Observatório Latino-Americano de Geopolítica Energética- Grupo de Estudos sobre Segurança Energetica",
+            "role": "Investigadora",
+            "quote": "Casi el 40% de todos los acuerdos energéticos firmados por Brasil en el mundo son con Sudamérica.",
+            "Cita": "si"
+            },
+            {
+            "name": "Astrid Yanet Aguilera Cazalbón",
+            "company": "Observatório Latino-Americano de Geopolítica Energética- Grupo de Estudos sobre Segurança Energetica",
+            "role": "Investigadora",
+            "quote": "Argentina es el principal socio energético de Brasil a nivel mundial, con 44 acuerdos firmados que representan el 9,1% del total global del país.",
+            "Cita": "si"
+            },
+            {
+            "name": "Diego Rodríguez",
+            "company": "AMI - Americas Market Intelligence",
+            "role": "Director de Práctica Logística",
+            "quote": "La productividad anual en el sudeste asiático creció 2.1% en esos 50 años [1960-2019], y en América Latina creció al 0.01% anual.",
+            "Cita": "si"
+            },
+            {
+            "name": "Alexis Rodríguez",
+            "company": "Maersk",
+            "role": "Energy Transition Executing Regional Head for LAC",
+            "quote": "De todo el sector logístico (11% de las emisiones globales), solo el transporte marítimo (3%) y la aviación están regulados a nivel global (por la OMI y la OASI, respectivamente). El resto de las emisiones logísticas dependen de las políticas nacionales.",
+            "Cita": "si"
+            },
+            {
+            "name": "Raúl Podetti",
+            "company": "Consultor internacional independiente y  del BID",
+            "role": "Consultor",
+            "quote": "Un modelo para el Caribe estima que el uso de GNL (de Trinidad, Surinam y Guyana), combinado con biogás generado a partir de recursos locales (17% del estiércol bovino de Dominicana/Haití y 2% del sargazo regional), podría generar ahorros de 600 millones de dólares y crear 90.000 empleos.",
+            "Cita": "si"
+            },
+            {
+            "name": "Jorge Srur",
+            "company": "CAF",
+            "role": "Gerente Regional Sur",
+            "quote": "CAF ha aprobado en los últimos dos años y medio, 3.500 millones de dólares en inversión verde para Chile, mayormente para acompañar la política de descarbonización.",
+            "Cita": "si"
+            },
+            {
+            "name": "Ramón Fiestas",
+            "company": "GWEC",
+            "role": "",
+            "quote": "La inversión total en energías renovables en ALC fue de $13.1 mil millones en el 1S 2025, el semestre más bajo para la inversión desde el 2S 2021.",
+            "Cita": "si"
+            },
+            {
+            "name": "Angelo Gurgel",
+            "company": "MIT",
+            "role": "",
+            "quote": "La integración regional en la adopción de SAF podría reducir el impacto en la demanda (costos) de la aviación en un 40%.",
+            "Cita": "si"
+            }
+        ]
+        },
+        "Género": {
+        "_": [
+            {
+            "name": "Verónica Barzola",
+            "company": "Asociación de Mujeres en Energía de Argentina - AMES",
+            "role": "Presidenta",
+            "quote": "A nivel global y regional, la presencia de mujeres en el sector energético no supera el 30%.",
+            "Cita": "si"
+            },
+            {
+            "name": "Florencia Balestro",
+            "company": "Banco Mundial",
+            "role": "Especialista de energía",
+            "quote": "En las evaluaciones del programa PISA, solo el 16% de las mujeres (alrededor de los 15 años) responde que estaría interesada en seguir carreras STEM.",
+            "Cita": "si"
+            }
+        ]
+        },
+        "General": {
+        "_": [
+            {
+            "name": "Diana Salazar",
+            "company": "Geek Girls LATAM",
+            "role": "Co-CEO",
+            "quote": "Menos del 9% de las mujeres ocupa roles de gerencia y liderazgo en la industria de la energía.",
+            "Cita": ""
+            }
+        ]
+        },
+        "Acceso": {
+        "_": [
+            {
+            "name": "Lisnely Valdés Bosquez",
+            "company": "Secretaría Nacional de Energía",
+            "role": "Directora de Electricidad",
+            "quote": "A octubre de 2025, todavía hay 17 millones de personas en América Latina sin acceso a electricidad.",
+            "Cita": "si"
+            },
+            {
+            "name": "Gustavo Cerqueira Ataide",
+            "company": "Ministerio de Minas y Energía de Brasil",
+            "role": "Secretario Nacional de Transición Energética y Planificación",
+            "quote": "En los últimos 20 años, Brasil ha dado acceso a electricidad a 20 millones de personas (casi 4 millones de residencias) a través del programa Luz para Todos, con una inversión de USD 4.5 mil millones.",
+            "Cita": "si"
+            },
+            {
+            "name": "Gustavo Cerqueira Ataide",
+            "company": "Ministerio de Minas y Energía de Brasil",
+            "role": "Secretario Nacional de Transición Energética y Planificación",
+            "quote": "A pesar del éxito de Luz para Todos, todavía quedan aproximadamente 1.3 millones de personas sin electricidad en Brasil, principalmente en zonas rurales y remotas de la Amazonía.",
+            "Cita": "si"
+            },
+            {
+            "name": "Gianluca Palumbo",
+            "company": "ENEL Chile",
+            "role": "Gerente General",
+            "quote": "Desde 2014 a 2023 se registraron 4.000 eventos climáticos a nivel global, con pérdidas económicas asociadas que alcanzan los 2 billones de dólares, y afectaron a 1,6 millones de personas.",
+            "Cita": ""
+            }
+        ]
+        }
+    },
+    "1c. Demanda Energética": {
+        "Industria": {
+        "_": [
+            {
+            "name": "Stéphanie Nour",
+            "company": "Econoler",
+            "role": "Directora Internacional",
+            "quote": "El potencial de ahorro por eficiencia energética en ALC podría alcanzar hasta 18.000 millones de dólares.",
+            "Cita": "si"
+            },
+            {
+            "name": "Dario Bove",
+            "company": "University of Genoa",
+            "role": "Investigador",
+            "quote": "Para 2030, al menos el 42% del hidrógeno utilizado en la industria (UE) deberá proceder de electrólisis, meta que subirá al 60% para 2035.",
+            "Cita": "si"
+            },
+            {
+            "name": "Marina Gil",
+            "company": "CEPAL",
+            "role": "Senior Economic Affairs Assistant",
+            "quote": "ALC produce cerca de 4 millones de toneladas de hidrógeno gris al año, abriendo una oportunidad de sustitución por hidrógeno limpio, fortaleciendo cadenas de valor locales y priorizando la demanda doméstica.",
+            "Cita": "si"
+            },
+            {
+            "name": "Gastón Siroit",
+            "company": "OLADE",
+            "role": "Director Regional del Observatorio de Metano",
+            "quote": "La minería consume el 8% de la energía total en ALC, cifra que asciende al 37% si se consideran solo Perú y Chile.",
+            "Cita": "si"
+            },
+            {
+            "name": "Andrea Heins",
+            "company": "UNEP",
+            "role": "Asesora Senior",
+            "quote": "En muchas industrias de ALC, invertir en eficiencia energética puede habilitar un aumento de la capacidad productiva de un 20% o incluso 30% sin necesidad de incrementar el consumo de energía, superando limitaciones de suministro eléctrico o de gas.",
+            "Cita": "si"
+            },
+            {
+            "name": "Soledad Ramírez",
+            "company": "Banco Santander",
+            "role": "Gerente de Sustentabilidad",
+            "quote": "Modelos de negocio como los PPAs solares para autoconsumo industrial (ej. alianza Santander-Solarity en Chile) permiten a las empresas industriales lograr ahorros de al menos un 30% en sus costos de energía, facilitando la descarbonización.",
+            "Cita": "si"
+            },
+            {
+            "name": "Fernando Monteverde",
+            "company": "SIEMENS energy",
+            "role": "",
+            "quote": "Los data centers en Latinoamérica consumen actualmente 30 teravatios (TWh) y se espera que cuadrupliquen su consumo en 10 años, llegando a representar el 5% del consumo eléctrico total de la región.",
+            "Cita": "si"
+            },
+            {
+            "name": "Cecilia San Román Ribolla",
+            "company": "ANCAP",
+            "role": "Presidente",
+            "quote": "Pese a que la electrificación de Uruguay alcanza casi el 100% (con una matriz eléctrica 99% renovable), el 35% de la matriz primaria de energía del país todavía depende de recursos fósiles, principalmente para industria y transporte.",
+            "Cita": "si"
+            },
+            {
+            "name": "Ezequiel Tavernelli",
+            "company": "ALACERO",
+            "role": "Director Ejecutivo",
+            "quote": "La producción de acero por hornos eléctricos tiene hasta 10 veces menos impacto ambiental que el alto horno",
+            "Cita": ""
+            },
+            {
+            "name": "Ezequiel Tavernelli",
+            "company": "ALACERO",
+            "role": "Director Ejecutivo",
+            "quote": "Hay más de 8.000 millones de dólares invertidos en proyectos de transición en el sector del acero",
+            "Cita": ""
+            },
+            {
+            "name": "Ludmila de Oliveira Diniz",
+            "company": "ONUDI",
+            "role": "Jefa de División ALC",
+            "quote": "En América Latina, la industria genera el 20% de las emisiones de CO2 y de ese porcentaje, el 70% provienen de la industria pesada.",
+            "Cita": ""
+            }
+        ]
+        },
+        "Transporte": {
+        "Transporte aéreo y SAF": [
+            {
+            "name": "Juan José Toha",
+            "company": "LATAM Airlines",
+            "role": "Director de Asuntos Corporativos y Sostenibilidad",
+            "quote": "El costo de la transición a cero emisiones netas en la aviación global se estima en 4,7 billones (millones de millones) de dólares (IATA).",
+            "Cita": "no"
+            },
+            {
+            "name": "Juan José Toha",
+            "company": "LATAM Airlines",
+            "role": "Director de Asuntos Corporativos y Sostenibilidad",
+            "quote": "El costo estimado por litro de SAF (Combustible Sostenible de Aviación) es de 1,1 USD en Brasil y 2,04 USD en Chile (PtL), según el MIT.",
+            "Cita": "no"
+            },
+            {
+            "name": "Juan José Toha",
+            "company": "LATAM Airlines",
+            "role": "Director de Asuntos Corporativos y Sostenibilidad",
+            "quote": "La integración regional en la adopción de SAF podría reducir el impacto en la demanda de la aviación en un 40% (MIT).",
+            "Cita": "no"
+            },
+            {
+            "name": "Angelo Gurgel",
+            "company": "MIT",
+            "role": "",
+            "quote": "El costo estimado por litro de SAF (Combustible Sostenible de Aviación) es de 1,1 USD en Brasil, mientras que en Chile (para PtL) asciende a 2,04 USD.",
+            "Cita": "si"
+            }
+        ],
+        "Descarbonización Marítima": [
+            {
+            "name": "Alexis Rodríguez",
+            "company": "Maersk",
+            "role": "Energy Transition Executing Regional Head for LAC",
+            "quote": "El transporte marítimo representa el 3% de las emisiones globales de CO2.",
+            "Cita": "si"
+            },
+            {
+            "name": "Raúl Podetti",
+            "company": "Consultor internacional independiente y  del BID",
+            "role": "Consultor",
+            "quote": "En la región bonaerense (Argentina), el uso de GNL combinado con bio-GNL de producción local en operaciones de dragado puede reducir los costos operativos en un 15%, gracias al menor precio del combustible.",
+            "Cita": "si"
+            },
+            {
+            "name": "Raúl Podetti",
+            "company": "Consultor internacional independiente y  del BID",
+            "role": "Consultor",
+            "quote": "La hidrovía Paraguay-Paraná, una arteria fluvial de 4.000 km que conecta cinco países, moviliza 23 millones de toneladas de carga al año y presenta una proyección de crecimiento anual del 5%.",
+            "Cita": "si"
+            }
+        ],
+        "Movilidad Sostenible": [
+            {
+            "name": "Laura Viegas",
+            "company": "Inchcape Américas",
+            "role": "Directora de Comunicaciones y Sostenibilidad",
+            "quote": "La aceptación de los vehículos de nueva energía (NEV) en ALC es alta. La percepción positiva es del 77% en Colombia y Costa Rica , 75% en Ecuador y Perú , 71% en Chile y 64% en Uruguay.",
+            "Cita": "si"
+            },
+            {
+            "name": "Laura Viegas",
+            "company": "Inchcape Américas",
+            "role": "Directora de Comunicaciones y Sostenibilidad",
+            "quote": "Las dos principales barreras identificadas por los consumidores para la adopción de VE son el precio de compra y la insuficiencia de la red de carga.",
+            "Cita": "si"
+            },
+            {
+            "name": "Laura Viegas",
+            "company": "Inchcape Américas",
+            "role": "Directora de Comunicaciones y Sostenibilidad",
+            "quote": "Estudio regional revela el rol social clave del auto: el 81% lo asocia con \"acceso a mejores oportunidades laborales\" y el 62% con \"mejores oportunidades educativas\".",
+            "Cita": "si"
+            },
+            {
+            "name": "Heloisa Borges",
+            "company": "EPE Brasil",
+            "role": "Directora de Petróleo, Gás e Biocombustíveis",
+            "quote": "El programa de biocombustibles de Brasil (desde 1975) ha evitado 1.640 millones de t CO2eq y ahorrado USD 251 mil millones en importaciones fósiles.",
+            "Cita": "si"
+            },
+            {
+            "name": "Guillermo Areas",
+            "company": "BMW Group",
+            "role": "Responsable de Relaciones Gubernamentales y Asuntos Externos",
+            "quote": "Latinoamérica ha sido un \"éxito\" en la adopción de la electromovilidad. Los porcentajes de ventas de automóviles eléctricos son altos en toda la región, con países que destacan como Uruguay (30%), Costa Rica (29%) y Colombia (28%)",
+            "Cita": ""
+            }
+        ]
+        },
+        "Residencial / Comercial": {
+        "_": [
+            {
+            "name": "Joisa Dutra",
+            "company": "FGV CERI",
+            "role": "Fundadora y Directora",
+            "quote": "Brasil, con 88 millones de usuarios conectados al sistema, tiene menos de 2 millones de medidores inteligentes instalados actualmente. El gobierno busca que cada distribuidora alcance el 40% de su mercado con medidores inteligentes en 10 años.",
+            "Cita": "si"
+            }
+        ]
+        }
+    },
+    "Otros": {
+        "General": {
+        "_": [
+            {
+            "name": "",
+            "company": "",
+            "role": "",
+            "quote": "",
+            "Cita": ""
+            }
+        ]
+        }
+    }
+    };
+
+    // Catálogos de filtros
+    const filterDefinitions = {
+      f1: ['Sector Eléctrico','Recursos Naturales','Demanda Energética','Enfoque Social de la Energía'],
+      f2: {
+        'Sector Eléctrico':['Generación','Transmisión','Distribución'],
+        'Recursos Naturales':['Petróleo','Gas','Minería'],
+        'Demanda Energética':['Industria','Residencial / Comercial','Transporte'],
+        'Enfoque Social de la Energía':['Acceso','Género','Empleo y cadenas de valor']
+      },
+      f3: {
+        'Generación':['Bioenergía','General','Geotermia','Térmica','Solar','Hidroeléctrica'],
+        'Transporte':['Descarbonización Marítima','Movilidad Sostenible','Transporte aéreo y SAF']
+      }
+    };
+
+    // ======= Estado/UI refs
+    let selections = { mode:'categorias', f1:null, f2:null, f3:null, author:null };
+    const el = {
+      modeCats: document.getElementById('mode-cats'),
+      modeAuthors: document.getElementById('mode-authors'),
+      secAuthors: document.getElementById('sec-authors'),
+      authorList: document.getElementById('author-list'),
+      authorResults: document.getElementById('author-results'),
+      authorSlider: document.getElementById('author-slider'),
+      f1: document.getElementById('f1'), f2: document.getElementById('f2'), f3: document.getElementById('f3'),
+      secF1: document.getElementById('sec-f1'), secF2: document.getElementById('sec-f2'), secF3: document.getElementById('sec-f3'),
+      results: document.getElementById('results'), reset: document.getElementById('reset'),
+      selections: document.getElementById('selections'),
+      logo: document.getElementById('logo-olade'),
+      searchInput: document.getElementById('search-input')
+
+    };
+
+    // Helpers categorías
+    function bubble(container, text, step){
+      const b=document.createElement('button'); b.className='bubble'; b.textContent=text;
+      b.onclick=(e)=>select(step, text, e.currentTarget); container.appendChild(b);
+    }
+    function paintBubbles(){ el.f1.innerHTML=''; filterDefinitions.f1.forEach(v=>bubble(el.f1,v,'f1')); }
+
+    // Modo
+    function setMode(mode){
+      selections.mode=mode;
+      el.modeCats.classList.toggle('selected', mode==='categorias');
+      el.modeAuthors.classList.toggle('selected', mode==='autor');
+
+      const showCats = mode==='categorias';
+      el.secF1.style.display = showCats ? '' : 'none';
+      el.secF2.style.display = showCats ? 'none' : 'none';
+      el.secF3.style.display = showCats ? 'none' : 'none';
+      el.results.style.display = showCats ? 'grid' : 'none';
+      el.secAuthors.style.display = mode==='autor' ? '' : 'none';
+
+      if(showCats){
+        selections.f1=selections.f2=selections.f3=null;
+        el.f2.innerHTML=''; el.f3.innerHTML=''; el.results.innerHTML='';
+        el.reset.style.display='none'; el.selections.innerHTML='';
+        el.f1.querySelectorAll('.bubble').forEach(b=>b.classList.remove('selected','hidden-sibling'));
+        el.secF2.style.display='none'; el.secF3.style.display='none';
+      }else{
+        selections.author=null;
+        currentStart=0; buildAuthorsIfNeeded(); paintAuthors(currentStart); updateSlider();
+        el.authorResults.innerHTML = `<div class="muted">Elegí un autor para ver sus frases.</div>`;
+      }
+      updateBreadcrumb();
+      if (showCats) {
+        render(); // sin filtros → todas las citas
+      }
+
+    }
+
+    // Autores con paginado + slider vertical
+    const AUTHORS_PER_PAGE=8;
+    let AUTHORS_CACHE=null, authorNames=[], currentStart=0, totalPages=1;
+
+    function extractAllItems(){
+      const items=[]; (function walk(n){
+        if(Array.isArray(n)){ items.push(...n); return; }
+        if(n && typeof n==='object'){ for(const v of Object.values(n)) walk(v); }
+      })(DATA_INDEX);
+      return items.filter(i=>i && i.name && i.quote);
+    }
+    function buildAuthorsIfNeeded(){
+      if(AUTHORS_CACHE) return;
+      const map={}; for(const it of extractAllItems()){ const k=String(it.name).trim(); if(!map[k]) map[k]=[]; map[k].push(it); }
+      AUTHORS_CACHE=map;
+      authorNames = Object.keys(AUTHORS_CACHE).sort((a,b)=>a.localeCompare(b,'es'));
+      totalPages = Math.max(1, Math.ceil(authorNames.length / AUTHORS_PER_PAGE));
+    }
+    function paintAuthors(pageStart){
+      const visible=authorNames.slice(pageStart, pageStart+AUTHORS_PER_PAGE);
+      el.authorList.innerHTML='';
+      visible.forEach(name=>{
+        const btn=document.createElement('button');
+        btn.className='author-btn'; btn.textContent=name;
+        btn.onclick=()=>{ selections.author=name;
+          el.authorList.querySelectorAll('.author-btn').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active'); renderAuthor(name); updateBreadcrumb(); };
+        el.authorList.appendChild(btn);
+      });
+    }
+    function updateSlider(){
+      el.authorSlider.max=String(totalPages-1);
+      el.authorSlider.value=String(totalPages-1-Math.floor(currentStart/AUTHORS_PER_PAGE));
+      el.authorSlider.oninput=(e)=>{ const inv=totalPages-1-parseInt(e.target.value,10); currentStart=inv*AUTHORS_PER_PAGE; paintAuthors(currentStart); };
+    }
+    function renderAuthor(name){
+      const arr=(AUTHORS_CACHE && AUTHORS_CACHE[name])||[];
+      el.authorResults.innerHTML = arr.length ? arr.map(i=>`
+        <div class="card">
+          <p class="blockquote">"${i.quote}"</p>
+          <div style="text-align:right; color:#5b6b7f">
+            <strong style="color:#0b1f3a">${i.name}</strong><br/>
+            ${i.role ? i.role+', ' : ''}${i.company || ''}
+          </div>
+        </div>`).join('')
+      : `<div class="card">Este autor no tiene frases registradas.</div>`;
+    }
+
+    // ==== BUSCADOR GLOBAL (sobre datos o autor) ====
+    function getSearchBase(){
+      // Si estoy en modo categorías, busco primero en el bucket actual
+      if(selections.mode === 'categorias'){
+        const bucket = getBucket();
+        if(bucket && bucket.length) return bucket;
+        // Si no hay bucket (no eligió filtros) busco en todo el DATA_INDEX
+        return extractAllItems();
+      }else{
+        // Modo autor: si hay autor seleccionado, busco sólo en ese autor
+        if(selections.author && AUTHORS_CACHE){
+          return AUTHORS_CACHE[selections.author] || [];
+        }
+        // Si no hay autor, busco en todo
+        return extractAllItems();
+      }
+    }
+
+    function cardHTML(i){
+      return `
+        <div class="card">
+          <p class="blockquote">"${i.quote}"</p>
+          <div style="text-align:right; color:#5b6b7f">
+            <strong style="color:#0b1f3a">${i.name || ''}</strong><br/>
+            ${(i.role ? i.role+', ' : '') + (i.company || '')}
+          </div>
+        </div>`;
+    }
+
+    function applySearch(query){
+      const q = query.trim().toLowerCase();
+
+      // Si no hay texto de búsqueda, volvemos al comportamiento normal
+      if(!q){
+        if(selections.mode === 'categorias'){
+          render();              // 👈 ahora siempre renderiza lo que corresponda
+        }else{
+          if(selections.author){
+            renderAuthor(selections.author);
+          }else{
+            el.authorResults.innerHTML = `<div class="card" style="text-align:center">Elegí un autor para ver sus frases.</div>`;
+          }
+        }
+        return;
+      }
+
+
+      const base = getSearchBase();
+      const filtered = base.filter(i=>{
+        const text = `${i.quote||''} ${i.name||''} ${i.company||''} ${i.role||''}`.toLowerCase();
+        return text.includes(q);
+      });
+
+      const msgVacio = `<div class="card" style="text-align:center">No se encontraron resultados para "${query}".</div>`;
+
+      if(selections.mode === 'categorias'){
+        el.results.innerHTML = filtered.length
+          ? filtered.map(cardHTML).join('')
+          : msgVacio;
+      }else{
+        el.authorResults.innerHTML = filtered.length
+          ? filtered.map(cardHTML).join('')
+          : msgVacio;
+      }
+    }
+
+    // Flujo de categorías
+    function select(step, value, btn){
+      selections[step] = value;
+
+      // Estilo de la burbuja seleccionada
+      btn.parentElement.querySelectorAll('.bubble').forEach(x => {
+        if (x !== btn) x.classList.add('hidden-sibling');
+      });
+      btn.classList.add('selected');
+      el.reset.style.display = 'inline-block';
+
+      if (step === 'f1') {
+        selections.f2 = null;
+        selections.f3 = null;
+        el.secF2.style.display = 'none';
+        el.secF3.style.display = 'none';
+        el.f2.innerHTML = '';
+        el.f3.innerHTML = '';
+
+        const next = filterDefinitions.f2[value];
+        if (next) {
+          next.forEach(v => bubble(el.f2, v, 'f2'));
+          el.secF2.style.display = 'block';
+        }
+      } else if (step === 'f2') {
+        selections.f3 = null;
+        el.secF3.style.display = 'none';
+        el.f3.innerHTML = '';
+
+        const next = filterDefinitions.f3[value];
+        if (next) {
+          next.forEach(v => bubble(el.f3, v, 'f3'));
+          el.secF3.style.display = 'block';
+        }
+      }
+
+      // 🔹 Siempre actualizar listado según los filtros actuales
+      render();
+      updateBreadcrumb();
+    }
+
+    function getBucket(){
+      const { f1, f2, f3 } = selections;
+
+      // 🔹 Sin categoría seleccionada → todas las citas
+      if (!f1) {
+        return extractAllItems();
+      }
+
+      // Encontrar el nodo de primer nivel cuyo nombre termina en f1
+      const l1Entry = Object.entries(DATA_INDEX).find(([k]) => k.endsWith(f1));
+      if (!l1Entry) return [];
+      const l1 = l1Entry[1];
+
+      // Helper para juntar todos los arrays de un nodo
+      const collectAll = (node) => {
+        const acc = [];
+        (function walk(n){
+          if (!n) return;
+          if (Array.isArray(n)) {
+            acc.push(...n);
+            return;
+          }
+          if (typeof n === 'object') {
+            for (const v of Object.values(n)) {
+              walk(v);
+            }
+          }
+        })(node);
+        return acc;
+      };
+
+      // 🔹 Solo F1 seleccionado → todo lo que cuelga de esa categoría
+      if (!f2) {
+        return collectAll(l1);
+      }
+
+      // 🔹 F1 + F2
+      const l2 = l1[f2];
+      if (!l2) return [];
+
+      const f3List = filterDefinitions.f3[f2];
+
+      // F2 sin tercer filtro definido → todo lo que cuelga de ese segundo nivel
+      if (!f3List) {
+        return collectAll(l2);
+      }
+
+      // 🔹 F1 + F2, pero sin F3 → juntar todas las subcategorías de F3
+      if (!f3) {
+        const acc = [];
+        f3List.forEach(name => {
+          const arr = l2[name];
+          if (Array.isArray(arr)) acc.push(...arr);
+        });
+        return acc;
+      }
+
+      // 🔹 F1 + F2 + F3 → lista específica
+      return l2[f3] || [];
+    }
+
+    function render(){
+      const data = getBucket();
+
+      el.results.innerHTML = data.length
+        ? data.map(i => `
+            <div class="card">
+              <p class="blockquote">"${i.quote}"</p>
+              <div style="text-align:right; color:#5b6b7f">
+                <strong style="color:#0b1f3a">${i.name || ''}</strong><br/>
+                ${(i.role ? i.role + ', ' : '') + (i.company || '')}
+              </div>
+            </div>
+          `).join('')
+        : `<div class="card" style="text-align:center">No se encontraron datos para esta selección.</div>`;
+    }
+
+    function updateBreadcrumb(){
+      const {mode,f1,f2,f3,author}=selections;
+      document.getElementById('selections').innerHTML = (mode==='categorias')
+        ? [
+            f1?`<span class="bubble">${f1}</span>`:'',
+            f2?` <span style="opacity:.6">→</span> <span class="bubble">${f2}</span>`:'',
+            f3?` <span style="opacity:.6">→</span> <span class="bubble">Detalle: ${f3}</span>`:''
+          ].join('')
+        : (author?`<span class="bubble">Autor: ${author}</span>`:'');
+    }
+
+    // -------- RESET GLOBAL (botón + logo) --------
+    function resetAll(){
+      selections={mode:'categorias',f1:null,f2:null,f3:null,author:null};
+      el.secF2.style.display='none'; el.secF3.style.display='none';
+      el.f2.innerHTML=''; el.f3.innerHTML=''; el.results.innerHTML='';
+      el.reset.style.display='none'; el.selections.innerHTML='';
+      el.f1.querySelectorAll('.bubble').forEach(b=>b.classList.remove('selected','hidden-sibling'));
+      setMode('categorias');
+    }
+
+    // Eventos modo
+    el.modeCats.onclick=()=>setMode('categorias');
+    el.modeAuthors.onclick=()=>setMode('autor');
+
+    // Botón reset
+    el.reset.onclick = resetAll;
+
+    // Logo OLADE también resetea filtros
+    if(el.logo){
+      el.logo.addEventListener('click', resetAll);
+    }
+    // Buscador: reacciona a medida que se escribe
+    if(el.searchInput){
+      el.searchInput.addEventListener('input', (e) => {
+        applySearch(e.target.value);
+      });
+    }
+
+    // Init
+    (function init(){ paintBubbles(); setMode('categorias'); })();
+  </script>
+</body>
+</html>
